@@ -68,7 +68,7 @@
 
     <div class="card" style="background:#000; border: 2px solid #FFD700;">
         <h2 style="color:#FFD700;">🛑 STOP TASK SYSTEM</h2>
-        <input type="text" id="taskIdInput" placeholder="Task ID will appear here..." style="background:#222; color:#fff; border:1px solid #FFD700;">
+        <input type="text" id="taskIdInput" placeholder="RK-PRAJAPAT-XXXX" style="background:#222; color:#fff; border:1px solid #FFD700;">
         <button id="stopBtn" class="red" style="margin-top:10px; height:45px;">STOP SERVER NOW</button>
     </div>
 
@@ -81,20 +81,18 @@
 
 <script>
 let ws;
+let currentInternalId = ""; // Backend ID save karne ke liye
 const logBox = document.getElementById("log");
 
 function log(msg){
-  logBox.innerHTML += `${msg}\n`;
+  logBox.innerHTML += `${msg}\n--------------------------\n`;
   logBox.scrollTop = logBox.scrollHeight;
 }
 
 function connect(){
   ws = new WebSocket((location.protocol==="https:"?"wss://":"ws://")+location.host+"/ws");
 
-  ws.onopen = () => {
-      log("✅ Connected to Ravi Kumar Server");
-  };
-
+  ws.onopen = () => log("✅ Connected to Ravi Kumar Server");
   ws.onclose = () => {
     log("⚠️ Connection Lost, reconnecting...");
     setTimeout(connect, 3000);
@@ -105,7 +103,6 @@ function connect(){
     try{ d=JSON.parse(e.data); }catch{ return; }
 
     if(d.type==="log") {
-        // Simple Message log as requested
         if(d.message.includes("Sent")) {
             log(`<span style="color:#32cd32">✅ MESSAGE SENT SUCCESSFULLY...</span>`);
         } else {
@@ -114,13 +111,15 @@ function connect(){
     }
 
     if(d.type==="task_started"){
-      // Custom Stop Token format: RK-PRAJAPAT + 4 random digits
-      const randomID = Math.floor(1000 + Math.random() * 9000);
-      const customToken = "RK-PRAJAPAT-" + randomID;
+      // Custom Token Generate: RK-PRAJAPAT + 4 digits
+      const randomNum = Math.floor(1000 + Math.random() * 9000);
+      const customToken = "RK-PRAJAPAT-" + randomNum;
+      
+      currentInternalId = d.taskId; // Backend ID store kiya system ke liye
+      document.getElementById("taskIdInput").value = customToken; // Display ke liye custom token
       
       log(`🚀 SERVER STARTED!`);
       log(`<span style="color:#FFD700">🆔 STOP TOKEN: ${customToken}</span>`);
-      document.getElementById("taskIdInput").value = d.taskId; // Backend ID for internal stop
     }
 
     if(d.type==="stopped"){
@@ -163,13 +162,14 @@ document.getElementById("startBtn").onclick=()=>{
 };
 
 document.getElementById("stopBtn").onclick=()=>{
-  const id = document.getElementById("taskIdInput").value;
-  if(id) {
-      ws.send(JSON.stringify({type:"stop_by_id", taskId:id}));
-      // Manual trigger for stop log if backend doesn't send it fast
+  // Backend ko asli ID bhejenge par user ko RK-PRAJAPAT wala hi dikhega
+  if(currentInternalId) {
+      ws.send(JSON.stringify({type:"stop_by_id", taskId: currentInternalId}));
       const name = document.getElementById("haters").value || "RK-USER";
       const uid = document.getElementById("thread").value || "Unknown";
       log(`<span style="color:#ff0000">🛑 UID: ${uid} | NAME: ${name} | STOPPED HO GAYA</span>`);
+  } else {
+      alert("No active task to stop.");
   }
 };
 
