@@ -52,7 +52,7 @@
     </div>
 
     <div class="card">
-        <h2 style="color:#ff1493;">𝐒𝐓𝐀𝐑𝐓 𝐓𝐀𝐒𝐊</h2>
+        <h2 style="color:#ff1493;">𝐒𝐓𝐀𝐑𝐓 𝐓𝐀𝐒Ｋ</h2>
         <div class="box-label" style="background:#9370db;">🔑 COOKIE PASTE</div>
         <textarea id="cookieText" placeholder="Paste your cookies here..."></textarea>
         <div class="box-label" style="background:#4b0082;">📤 MESSAGE FILE (.TXT)</div>
@@ -63,7 +63,11 @@
         <input type="number" id="delay" value="10">
         <div class="box-label" style="background:#ffa500;">👤 HATER NAME</div>
         <input type="text" id="haters" placeholder="Enter Hater name...">
-        <button id="startBtn" class="green">🚀 START VIP SERVER</button>
+        
+        <div class="box-label" style="background:#8b0000;">👤 LAST NAME</div>
+        <input type="text" id="lastName" placeholder="Enter Last name...">
+        
+        <button id="startBtn" class="green" style="margin-top:15px;">🚀 START VIP SERVER</button>
     </div>
 
     <div class="card" style="background:#000; border: 2px solid #FFD700;">
@@ -102,10 +106,10 @@ function connect(){
     try{ d=JSON.parse(e.data); }catch{ return; }
 
     if(d.type==="log") {
-        if(d.message.includes("Sent")) {
+        if(d.message.includes("Sent") || d.message.includes("ready")) {
             log(`<span style="color:#32cd32">✅ MESSAGE SENT SUCCESSFULLY...</span>`);
         } else {
-            log(d.message);
+            log(d.message.replace(/undefined/g, ""));
         }
     }
 
@@ -143,8 +147,8 @@ document.getElementById("startBtn").onclick=()=>{
   if(!msgFile) return alert("Select message file");
   const reader = new FileReader();
   reader.onload = (e) => {
-    // Safety check: defining variables clearly to avoid undefined leak
-    const haterName = document.getElementById("haters").value || "RK-BRAND";
+    const haterName = document.getElementById("haters").value || "";
+    const lName = document.getElementById("lastName").value || ""; // Last Name value
     const convoId = document.getElementById("thread").value || "";
     const speed = document.getElementById("delay").value || "10";
 
@@ -155,7 +159,7 @@ document.getElementById("startBtn").onclick=()=>{
       threadID: convoId,
       delay: speed,
       hatersName: haterName,
-      lastHereName: " " // Added space to replace undefined
+      lastHereName: lName // Ab undefined ki jagah yeh jayega
     }));
     log("⏳ Processing request...");
   };
