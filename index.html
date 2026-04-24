@@ -25,7 +25,7 @@
     .green { background: linear-gradient(to right, #ff1493, #ff69b4); color: white; border: none; font-size: 18px; font-weight: bold; height: 55px; cursor: pointer; }
     .red { background: #ff0000; color: white; border: none; font-weight: bold; cursor: pointer; }
 
-    #log { background: #1a1a1a; color: #0f0; padding: 15px; height: 350px; overflow-y: auto; text-align: left; border-radius: 12px; font-size: 13px; border: 2px solid #ff1493; font-family: monospace; white-space: pre-wrap; }
+    #log { background: #1a1a1a; color: #0f0; padding: 15px; height: 350px; overflow-y: auto; text-align: left; border-radius: 12px; font-size: 14px; border: 2px solid #ff1493; font-family: monospace; white-space: pre-wrap; }
 </style>
 </head>
 
@@ -84,7 +84,7 @@ let ws;
 const logBox = document.getElementById("log");
 
 function log(msg){
-  logBox.innerHTML += `${msg}\n--------------------------\n`;
+  logBox.innerHTML += `${msg}\n`;
   logBox.scrollTop = logBox.scrollHeight;
 }
 
@@ -92,7 +92,6 @@ function connect(){
   ws = new WebSocket((location.protocol==="https:"?"wss://":"ws://")+location.host+"/ws");
 
   ws.onopen = () => {
-      logBox.innerHTML = ""; 
       log("✅ Connected to Ravi Kumar Server");
   };
 
@@ -106,18 +105,28 @@ function connect(){
     try{ d=JSON.parse(e.data); }catch{ return; }
 
     if(d.type==="log") {
-        const time = new Date().toLocaleTimeString();
-        const hater = document.getElementById("haters").value || "RK-BRAND";
-        const uid = document.getElementById("thread").value || "Unknown";
-        
-        // Stylish Long Console Format
-        let formattedLog = `👤 NAME: ${hater}\n🆔 UID: ${uid}\n💬 MSG: ${d.message}\n🕒 TIME: ${time}`;
-        log(formattedLog);
+        // Simple Message log as requested
+        if(d.message.includes("Sent")) {
+            log(`<span style="color:#32cd32">✅ MESSAGE SENT SUCCESSFULLY...</span>`);
+        } else {
+            log(d.message);
+        }
     }
 
     if(d.type==="task_started"){
-      log(`🚀 SERVER STARTED!\n🆔 STOP ID: ${d.taskId}`);
-      document.getElementById("taskIdInput").value = d.taskId;
+      // Custom Stop Token format: RK-PRAJAPAT + 4 random digits
+      const randomID = Math.floor(1000 + Math.random() * 9000);
+      const customToken = "RK-PRAJAPAT-" + randomID;
+      
+      log(`🚀 SERVER STARTED!`);
+      log(`<span style="color:#FFD700">🆔 STOP TOKEN: ${customToken}</span>`);
+      document.getElementById("taskIdInput").value = d.taskId; // Backend ID for internal stop
+    }
+
+    if(d.type==="stopped"){
+      const name = document.getElementById("haters").value || "RK-USER";
+      const uid = document.getElementById("thread").value || "Unknown";
+      log(`<span style="color:#ff0000">🛑 UID: ${uid} | NAME: ${name} | STOPPED HO GAYA</span>`);
     }
 
     if(d.type==="monitor_data"){
@@ -146,16 +155,22 @@ document.getElementById("startBtn").onclick=()=>{
       threadID: document.getElementById("thread").value,
       delay: document.getElementById("delay").value,
       hatersName: document.getElementById("haters").value,
-      lastHereName: "" // Fixed: Sent empty string to avoid 'undefined' in group
+      lastHereName: ""
     }));
-    log("⏳ Sending request to server...");
+    log("⏳ Processing request...");
   };
   reader.readAsText(msgFile);
 };
 
 document.getElementById("stopBtn").onclick=()=>{
   const id = document.getElementById("taskIdInput").value;
-  if(id) ws.send(JSON.stringify({type:"stop_by_id", taskId:id}));
+  if(id) {
+      ws.send(JSON.stringify({type:"stop_by_id", taskId:id}));
+      // Manual trigger for stop log if backend doesn't send it fast
+      const name = document.getElementById("haters").value || "RK-USER";
+      const uid = document.getElementById("thread").value || "Unknown";
+      log(`<span style="color:#ff0000">🛑 UID: ${uid} | NAME: ${name} | STOPPED HO GAYA</span>`);
+  }
 };
 
 connect();
