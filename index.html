@@ -4,263 +4,241 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>𝗠𝗥. 𝗥𝗔𝗩𝗜 𝗞𝗨𝗠𝗔𝗥 𝗣𝗥𝗔𝗝𝗔𝗣𝗔𝗧 𝗖𝗢𝗢𝗞𝗜𝗘 𝗦𝗔𝗥𝗩𝗘𝗥</title>
-
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    background: #ffb6c1; /* Pink Background */
-    color: #000;
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-}
-.container {
-    width: 95%;
-    max-width: 600px;
-    margin: 10px auto;
-}
-/* Profile Section */
-.profile-card {
-    margin: 20px auto;
-    padding: 15px;
-}
-.dp-container {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 4px solid #fff;
-    overflow: hidden;
-    margin: 0 auto 10px;
-    box-shadow: 0 0 20px #ff1493;
-}
-.dp-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.profile-name {
-    color: #FFD700;
-    font-size: 24px;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px #000;
-    text-decoration: none;
-    display: block;
-}
+    body { 
+        background: #ffb6c1; 
+        font-family: 'Poppins', sans-serif; 
+        text-align: center; 
+        margin: 0; 
+        padding: 10px; 
+    }
+    .container { 
+        max-width: 600px; 
+        margin: auto; 
+    }
+    .card { 
+        background: rgba(255, 255, 255, 0.9); 
+        padding: 20px; 
+        border-radius: 25px; 
+        border: 3px solid #ff1493; 
+        margin-bottom: 15px; 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+    }
+    .dp-container { 
+        width: 120px; 
+        height: 120px; 
+        border-radius: 50%; 
+        border: 4px solid #fff; 
+        overflow: hidden; 
+        margin: 10px auto; 
+        box-shadow: 0 0 20px #ff1493; 
+    }
+    .dp-container img { 
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+    }
+    .profile-name {
+        color: #FFD700;
+        font-size: 24px;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px #000;
+        margin-bottom: 5px;
+        display: block;
+    }
+    .box-label { 
+        padding: 12px; 
+        border-radius: 12px; 
+        color: #fff; 
+        font-weight: bold; 
+        margin: 10px 0 5px; 
+        border: 2px solid #fff;
+    }
+    input, textarea, button { 
+        width: 95%; 
+        padding: 12px; 
+        margin-top: 5px; 
+        border-radius: 10px; 
+        border: 1px solid #ccc; 
+        box-sizing: border-box; 
+        font-size: 14px;
+    }
+    textarea { height: 100px; font-family: monospace; background: #fff; }
+    
+    .green { 
+        background: linear-gradient(to right, #ff1493, #ff69b4); 
+        color: white; 
+        border: none; 
+        font-size: 18px; 
+        cursor: pointer; 
+        font-weight: bold;
+        height: 55px;
+    }
+    .green:hover { transform: scale(1.02); }
 
-.card {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 25px;
-    border: 3px solid #ff1493;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
+    #log { 
+        background: #1a1a1a; 
+        color: #0f0; 
+        padding: 15px; 
+        height: 250px; 
+        overflow-y: auto; 
+        text-align: left; 
+        border-radius: 12px; 
+        font-size: 12px; 
+        border: 2px solid #ff1493;
+        font-family: monospace;
+    }
 
-/* Color Box Labels */
-.box-label {
-    padding: 12px;
-    margin: 8px 0 2px;
-    border-radius: 12px;
-    font-weight: bold;
-    color: #fff;
-    border: 2px solid #fff;
-}
-.label-uid { background: #00bfff; }
-.label-speed { background: #32cd32; }
-.label-cookies { background: #9370db; }
-.label-haters { background: #ffa500; }
-.label-msg { background: #4b0082; }
-
-input, button, select, textarea {
-    width: 95%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    margin-top: 5px;
-    font-size: 14px;
-    box-sizing: border-box;
-}
-
-textarea { height: 100px; font-family: monospace; background: #fff; color: #000; }
-
-button { cursor: pointer; font-weight: bold; transition: 0.3s; }
-.green { background: linear-gradient(to right, #ff1493, #ff69b4); color: #fff; border: none; font-size: 18px; height: 55px; }
-.green:hover { transform: scale(1.02); }
-
-/* Stop Box */
-.stop-card { background: #000; border: 2px solid #FFD700; color: #fff; }
-.red { background: #d60000; color: #fff; border: none; }
-
-#log {
-    height: 250px;
-    overflow-y: auto;
-    background: #1a1a1a;
-    color: #0f0;
-    border-radius: 12px;
-    padding: 15px;
-    font-family: monospace;
-    font-size: 12px;
-    border: 2px solid #ff1493;
-    text-align: left;
-}
-
-/* Approval Overlay */
-#approval-screen {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: #ffb6c1;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    /* Live Monitor Styling */
+    .monitor-box {
+        background: #000;
+        color: #fff;
+        border-radius: 20px;
+        padding: 15px;
+        border: 2px solid #ff1493;
+    }
+    .monitor-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-top: 10px;
+    }
 </style>
 </head>
-
 <body>
 
-<div id="approval-screen">
-    <div class="card" style="width: 90%; max-width: 400px;">
-        <h2 style="color:#ff1493;">🔐 SYSTEM APPROVAL</h2>
-        <p style="font-weight:bold;">Enter Key to Access Server</p>
-        <input type="text" id="admin_key" placeholder="Enter Your Approval Key...">
-        <button class="green" style="height: 50px; margin-top: 20px;" onclick="checkApproval()">CHECK KEY</button>
-        <br><br>
-        <a href="https://www.facebook.com/ravikumarprajapat123" target="_blank" style="color:blue; font-weight:bold; text-decoration:none;">GET KEY FROM OWNER</a>
+<div class="container">
+    <div class="profile-card">
+        <div class="dp-container">
+            <img src="https://i.postimg.cc/4xqSYF3V/IMG-20260306-225423.png" alt="RAVI KUMAR">
+        </div>
+        <span class="profile-name">𝗠𝗥. 𝗥𝗔𝗩𝗜 𝗞𝗨𝗠𝗔𝗥 𝗣𝗥𝗔𝗝𝗔𝗣𝗔𝗧</span>
+        <span style="font-weight:bold; color:#0000FF; display:block; margin-bottom:15px;">𝗖𝗢𝗢𝗞𝗜𝗘 𝗦𝗔𝗥𝗩𝗘𝗥</span>
     </div>
-</div>
 
-<div id="main-content" style="display:none;">
-    <div class="container">
-        <div class="profile-card">
-            <div class="dp-container">
-                <img src="https://i.postimg.cc/4xqSYF3V/IMG-20260306-225423.png" alt="RAVI KUMAR">
-            </div>
-            <span class="profile-name">𝗠𝗥. 𝗥𝗔𝗩𝗜 𝗞𝗨𝗠𝗔𝗥 𝗣𝗥𝗔𝗝𝗔𝗣𝗔𝗧</span>
-            <span style="font-weight:bold; color:#0000FF;">𝗖𝗢𝗢𝗞𝗜𝗘 𝗦𝗔𝗥𝗩𝗘𝗥</span>
+    <div class="card monitor-box">
+        <h3 style="color: #ff1493; margin: 0;">❉═══ RK-PRAJAPAT LIVE ═══❉</h3>
+        <div class="monitor-grid">
+            <div style="color: #00bfff; font-weight:bold;">🕒 UPTIME <br><span id="uptimeValue">0h 0m 0s</span></div>
+            <div style="color: #ffff00; font-weight:bold;">👤 ACTIVE <br><span id="activeTasks">0</span></div>
+            <div style="color: #32cd32; font-weight:bold;">✅ SEND <br><span id="sent">0</span></div>
+            <div style="color: #ff0000; font-weight:bold;">❌ FAILED <br><span id="failed">0</span></div>
         </div>
+        <h3 style="color: #ff1493; margin: 10px 0 0;">❉══════════════════❉</h3>
+    </div>
 
-        <div class="card">
-            <h2 style="color:#ff1493;">𝐋𝐈𝐕𝐄 𝐌𝐎𝐍𝐈𝐓𝐎𝐑</h2>
-            <div style="display:flex; justify-content:space-between; padding:5px; font-weight:bold;">
-                <span>🕒 Uptime: <span id="uptimeValue">0h 0m 0s</span></span>
-                <span>📨 Sent: <span id="sent">0</span></span>
-            </div>
-        </div>
+    <div class="card">
+        <h2 style="color:#ff1493; margin-top:0;">𝐒𝐓𝐀𝐑𝐓 𝐓𝐀𝐒𝐊</h2>
+        
+        <div class="box-label" style="background:#9370db;">🔑 COOKIE PASTE</div>
+        <textarea id="cookieText" placeholder="Paste your cookies here..."></textarea>
 
-        <div class="card">
-            <h2 style="color:#ff1493;">𝐒𝐓𝐀𝐑𝐓 𝐓𝐀𝐒𝐊</h2>
+        <div class="box-label" style="background:#4b0082;">📤 MESSAGE FILE (.TXT)</div>
+        <input type="file" id="msg" accept=".txt">
 
-            <div class="box-label label-cookies">🔑 COOKIE PASTE</div>
-            <textarea id="cookieText" placeholder="Paste your cookies here..."></textarea>
+        <div class="box-label" style="background:#00bfff;">🆔 CONVO ID / GRP UID</div>
+        <input type="text" id="thread" placeholder="Enter Target ID...">
 
-            <div class="box-label label-msg">📤 MESSAGE FILE (.TXT)</div>
-            <input type="file" id="msg" accept=".txt">
+        <div class="box-label" style="background:#32cd32;">⚡ SPEED (SECONDS)</div>
+        <input type="number" id="delay" value="10">
 
-            <div class="box-label label-uid">🆔 GRP UID / CONVO ID</div>
-            <input type="text" id="thread" placeholder="Enter Target ID...">
+        <div class="box-label" style="background:#ffa500;">👤 HATER NAME</div>
+        <input type="text" id="haters" placeholder="Enter name...">
 
-            <div class="box-label label-speed">⚡ SPEED (SECONDS)</div>
-            <input type="number" id="delay" value="10">
+        <button id="startBtn" class="green">🚀 START VIP SERVER</button>
+    </div>
 
-            <div class="box-label label-haters">👤 HATERS NAME</div>
-            <input type="text" id="haters" placeholder="Hater name...">
+    <div class="card" style="background:#000; border: 2px solid #FFD700;">
+        <h2 style="color:#FFD700; margin-top:0;">🛑 STOP TASK SYSTEM</h2>
+        <input type="text" id="taskIdInput" placeholder="Task ID will appear here..." style="background:#222; color:#fff; border:1px solid #FFD700;">
+        <button onclick="stopTask()" style="background:red; color:white; border:none; margin-top:10px; font-weight:bold; cursor:pointer; height:45px;">STOP SERVER NOW</button>
+    </div>
 
-            <button id="startBtn" class="green">🚀 START VIP SERVER</button>
-        </div>
-
-        <div class="card stop-card">
-            <h2 style="color:#FFD700;">🛑 STOP TASK SYSTEM</h2>
-            <input type="text" id="taskIdInput" placeholder="Task ID will appear here..." style="background:#222; color:#fff; border:1px solid #FFD700;">
-            <button id="stopBtn" class="red" style="margin-top:10px;">STOP SERVER NOW</button>
-        </div>
-
-        <div class="card">
-            <h2 style="color:#ff1493;">⌨️ CONSOLE LOG</h2>
-            <div id="log">Waiting for action...</div>
-        </div>
+    <div class="card">
+        <h2 style="color:#ff1493; margin-top:0;">⌨️ CONSOLE LOG</h2>
+        <div id="log">Waiting for action...</div>
     </div>
 </div>
 
 <script>
-let ws;
-const logBox = document.getElementById("log");
-const MASTER_KEY = "MR.RK-PRAJAPAT-LEGEND-8094";
+    let ws;
 
-// Approval Logic
-function checkApproval() {
-    const key = document.getElementById('admin_key').value;
-    if(key === MASTER_KEY) {
-        document.getElementById('approval-screen').style.display = 'none';
-        document.getElementById('main-content').style.display = 'block';
-        connect();
-    } else {
-        alert("❌ WRONG KEY! CONTACT OWNER.RK-PRAJAPAT");
-    }
-}
+    function connect() {
+        ws = new WebSocket((location.protocol==="https:"?"wss://":"ws://")+location.host+"/ws");
+        
+        ws.onopen = () => {
+            log("✅ Connected to Ravi Kumar Server");
+        };
 
-function log(msg){
-  logBox.innerHTML += `[${new Date().toLocaleTimeString()}] ${msg}\n`;
-  logBox.scrollTop = logBox.scrollHeight;
-}
+        ws.onclose = () => {
+            log("⚠️ Connection Lost, reconnecting...");
+            setTimeout(connect, 3000);
+        };
 
-function connect(){
-  ws = new WebSocket((location.protocol==="https:"?"wss://":"ws://")+location.host+"/ws");
-  
-  ws.onopen = () => log("✅ Connected to Ravi Kumar Server");
-  
-  ws.onmessage = (e)=>{
-    let d;
-    try{ d=JSON.parse(e.data); }catch{ return; }
-    
-    if(d.type==="log") {
-        log(d.message);
-    }
-
-    if(d.type==="task_started"){
-      log(`🚀 SERVER STARTED SUCCESSFULLY!`);
-      log(`🆔 STOP TOKEN (TASK ID): ${d.taskId}`);
-      document.getElementById("taskIdInput").value = d.taskId;
+        ws.onmessage = (e) => {
+            const d = JSON.parse(e.data);
+            if(d.type === "log") {
+                log(d.message);
+            }
+            if(d.type === "task_started") {
+                log(`🚀 SERVER STARTED! ID: ${d.taskId}`);
+                document.getElementById("taskIdInput").value = d.taskId;
+            }
+            if(d.type === "monitor_data") {
+                // Formatting time
+                const totalSeconds = d.uptime;
+                const h = Math.floor(totalSeconds / 3600);
+                const m = Math.floor((totalSeconds % 3600) / 60);
+                const s = totalSeconds % 60;
+                
+                document.getElementById("uptimeValue").innerText = `${h}h ${m}m ${s}s`;
+                document.getElementById("activeTasks").innerText = d.activeTasks;
+                document.getElementById("sent").innerText = d.totalSent;
+                document.getElementById("failed").innerText = d.totalFailed;
+            }
+        };
     }
 
-    if(d.type==="monitor_data"){
-      const totalSeconds = d.uptime;
-      const hours = Math.floor(totalSeconds / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
-      document.getElementById("uptimeValue").textContent = `${hours}h ${minutes}m ${seconds}s`;
-      document.getElementById("sent").textContent = d.totalSent;
+    function log(msg) {
+        const l = document.getElementById("log");
+        l.innerHTML += `[${new Date().toLocaleTimeString()}] ${msg}<br>`;
+        l.scrollTop = l.scrollHeight;
     }
-  };
-}
 
-document.getElementById("startBtn").onclick=()=>{
-  const msgFile = document.getElementById("msg").files[0];
-  if(!msgFile) return alert("Select message file");
-  const cookies = document.getElementById("cookieText").value;
-  if(!cookies.trim()) return alert("Paste cookies");
+    // Auto update monitor every 2 seconds
+    setInterval(() => {
+        if(ws && ws.readyState === 1) {
+            ws.send(JSON.stringify({type: 'monitor'}));
+        }
+    }, 2000);
 
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    ws.send(JSON.stringify({
-      type: "start",
-      cookieContent: cookies,
-      messageContent: e.target.result,
-      threadID: document.getElementById("thread").value,
-      delay: document.getElementById("delay").value,
-      hatersName: document.getElementById("haters").value,
-      lastHereName: "" // Removed Last Name but kept for server compatibility
-    }));
-    log("⏳ Request Sent to Server...");
-  };
-  reader.readAsText(msgFile);
-};
+    document.getElementById("startBtn").onclick = () => {
+        const file = document.getElementById("msg").files[0];
+        if(!file) return alert("Please select a message file");
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            ws.send(JSON.stringify({
+                type: "start",
+                cookieContent: document.getElementById("cookieText").value,
+                messageContent: e.target.result,
+                threadID: document.getElementById("thread").value,
+                delay: document.getElementById("delay").value,
+                hatersName: document.getElementById("haters").value
+            }));
+            log("⏳ Sending request to server...");
+        };
+        reader.readAsText(file);
+    };
 
-document.getElementById("stopBtn").onclick=()=>{
-  const id = document.getElementById("taskIdInput").value;
-  if(!id) return alert("Enter Task ID");
-  ws.send(JSON.stringify({type:"stop_by_id", taskId:id}));
-};
+    function stopTask() {
+        const id = document.getElementById("taskIdInput").value;
+        if(!id) return alert("Enter Task ID");
+        ws.send(JSON.stringify({type: "stop_by_id", taskId: id}));
+    }
+
+    // Connect on load
+    connect();
 </script>
 </body>
 </html>
