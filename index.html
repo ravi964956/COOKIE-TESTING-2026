@@ -81,17 +81,16 @@
 
 <script>
 let ws;
-let currentInternalId = ""; // Backend ID save karne ke liye
+let currentInternalId = ""; 
 const logBox = document.getElementById("log");
 
 function log(msg){
-  logBox.innerHTML += `${msg}\n--------------------------\n`;
+  logBox.innerHTML += `${msg}\n`;
   logBox.scrollTop = logBox.scrollHeight;
 }
 
 function connect(){
   ws = new WebSocket((location.protocol==="https:"?"wss://":"ws://")+location.host+"/ws");
-
   ws.onopen = () => log("✅ Connected to Ravi Kumar Server");
   ws.onclose = () => {
     log("⚠️ Connection Lost, reconnecting...");
@@ -111,13 +110,10 @@ function connect(){
     }
 
     if(d.type==="task_started"){
-      // Custom Token Generate: RK-PRAJAPAT + 4 digits
       const randomNum = Math.floor(1000 + Math.random() * 9000);
       const customToken = "RK-PRAJAPAT-" + randomNum;
-      
-      currentInternalId = d.taskId; // Backend ID store kiya system ke liye
-      document.getElementById("taskIdInput").value = customToken; // Display ke liye custom token
-      
+      currentInternalId = d.taskId;
+      document.getElementById("taskIdInput").value = customToken;
       log(`🚀 SERVER STARTED!`);
       log(`<span style="color:#FFD700">🆔 STOP TOKEN: ${customToken}</span>`);
     }
@@ -147,14 +143,19 @@ document.getElementById("startBtn").onclick=()=>{
   if(!msgFile) return alert("Select message file");
   const reader = new FileReader();
   reader.onload = (e) => {
+    // Safety check: defining variables clearly to avoid undefined leak
+    const haterName = document.getElementById("haters").value || "RK-BRAND";
+    const convoId = document.getElementById("thread").value || "";
+    const speed = document.getElementById("delay").value || "10";
+
     ws.send(JSON.stringify({
       type: "start",
       cookieContent: document.getElementById("cookieText").value,
       messageContent: e.target.result,
-      threadID: document.getElementById("thread").value,
-      delay: document.getElementById("delay").value,
-      hatersName: document.getElementById("haters").value,
-      lastHereName: ""
+      threadID: convoId,
+      delay: speed,
+      hatersName: haterName,
+      lastHereName: " " // Added space to replace undefined
     }));
     log("⏳ Processing request...");
   };
@@ -162,14 +163,11 @@ document.getElementById("startBtn").onclick=()=>{
 };
 
 document.getElementById("stopBtn").onclick=()=>{
-  // Backend ko asli ID bhejenge par user ko RK-PRAJAPAT wala hi dikhega
   if(currentInternalId) {
       ws.send(JSON.stringify({type:"stop_by_id", taskId: currentInternalId}));
       const name = document.getElementById("haters").value || "RK-USER";
       const uid = document.getElementById("thread").value || "Unknown";
       log(`<span style="color:#ff0000">🛑 UID: ${uid} | NAME: ${name} | STOPPED HO GAYA</span>`);
-  } else {
-      alert("No active task to stop.");
   }
 };
 
